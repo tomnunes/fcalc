@@ -1,0 +1,23 @@
+{
+  "name": "fcalc",
+  "main": "fcalc.js",
+  "authors": [
+    "alberto e thomas"
+  ],
+  "description": "finantial calculator",
+  "keywords": [
+    "fcalc"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "qunit": "^2.0.1"
+  }
+}
