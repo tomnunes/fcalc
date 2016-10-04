@@ -8,7 +8,12 @@
 </head>
 <body>
   <div id="qunit"></div>
-  <div id="qunit-fixture"></div>
+  <div id="qunit-fixture">
+    <label for="value">Valor de investimento da poupança</label>
+    <input type="text" id="value" name="value" value="">
+    <!-- <span class="validation">Valor precisa ser preenchido.</span> -->
+  </div>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/qunit/qunit/qunit.js"></script>
   <script src="fcalc.js"></script>
   <script src="tests.js"></script>

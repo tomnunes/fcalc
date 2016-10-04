@@ -2,7 +2,7 @@ function calculate_poupa(value, tax, month) {
   var rendimento;
 
   if (!is_positive_number(value) && !is_positive_number(tax) && !is_positive_number(month)) {
-  	alert('Parameters should be a positive number!');
+  	$("#value").prepend("<span>Valor precisa ser preenchido e ser um número positivo.</span>");
   }
 
   for (var i = 0; i < month; i++) {

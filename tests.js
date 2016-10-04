@@ -4,12 +4,12 @@ QUnit.test( "calculate_poupa should return the expected result", function( asser
 });
 
 QUnit.test( "calculate_poupa should return an alert message", function( assert ) {
-  var result = calculate_poupa('','','');
+  var result = calculate_poupa("","","");
   assert.ok( result == false, "Passed!" );
 });
 
 QUnit.test( "is_positive_number should return false with a string", function( assert ) {
-  var result = is_positive_number('A');
+  var result = is_positive_number("A");
   assert.ok( result === false, "Passed!" );
 });
 
@@ -21,4 +21,10 @@ QUnit.test( "is_positive_number should return false with a negative number", fun
 QUnit.test( "is_positive_number should return true with a positive number", function( assert ) {
   var result = is_positive_number(100);
   assert.ok( result === true, "Passed!" );
+});
+
+QUnit.test( "calculate_poupa should create a span message", function( assert ) {
+  calculate_poupa("","","");
+  var span = document.getElementById("qunit-fixture").getElementsByTagName("span");
+  assert.equal( span[0].innerHTML, "Valor precisa ser preenchido e ser um número positivo." );
 });

@@ -18,6 +18,7 @@
     "tests"
   ],
   "devDependencies": {
-    "qunit": "^2.0.1"
+    "qunit": "^2.0.1",
+    "jquery": "^3.1.1"
   }
 }
