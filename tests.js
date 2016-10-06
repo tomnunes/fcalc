@@ -28,3 +28,8 @@ QUnit.test( "calculate_poupa should create a span message", function( assert ) {
   var span = document.getElementById("qunit-fixture").getElementsByTagName("span");
   assert.equal( span[0].innerHTML, "Valor precisa ser preenchido e ser um número positivo." );
 });
+
+QUnit.test( "calculate_cdb should return the expected result", function( assert ) {
+  var result = calculate_cdb(100, 14.13, 116, 3);
+  assert.ok( result === 157.67, "Passed!" );
+});
