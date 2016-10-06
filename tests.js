@@ -1,6 +1,6 @@
 QUnit.test( "calculate_poupa should return the expected result", function( assert ) {
   var result = calculate_poupa(100,0.0065,3);
-  assert.ok( result == 101.96, "Passed!" );
+  assert.ok( result === 101.96, "Passed!" );
 });
 
 QUnit.test( "calculate_poupa should return an alert message", function( assert ) {
@@ -30,6 +30,17 @@ QUnit.test( "calculate_poupa should create a span message", function( assert ) {
 });
 
 QUnit.test( "calculate_cdb should return the expected result", function( assert ) {
-  var result = calculate_cdb(100, 14.13, 116, 3);
-  assert.ok( result === 157.67, "Passed!" );
+  var result = calculate_cdb(100, 1.13, 116, 3);
+  assert.ok( result === 103.98, "Passed!" );
+});
+
+QUnit.test( "calculate_cdb should retunr an alert message", function ( assert ) {
+    var result = calculate_cdb("","","","");
+    assert.ok( result == false, "Passed!");
+});
+
+QUnit.test( "calculate_cdb should create a span message", function ( assert ) {
+    calculate_cdb("","","","");
+    var span = $("#qunit-fixture span");
+    assert.equal( span.text(), "Valor precisa ser preenchido e ser um número positivo." );
 });

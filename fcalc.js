@@ -2,7 +2,7 @@ function calculate_poupa(value, tax, month) {
   var rendimento;
 
   if (!is_positive_number(value) && !is_positive_number(tax) && !is_positive_number(month)) {
-  	$("#value").prepend("<span>Valor precisa ser preenchido e ser um número positivo.</span>");
+  	$("#value-poupa").prepend("<span>Valor precisa ser preenchido e ser um número positivo.</span>");
   }
 
   for (var i = 0; i < month; i++) {
@@ -12,18 +12,17 @@ function calculate_poupa(value, tax, month) {
   return round(value);
 }
 
-function calculate_cdb(value, selic, tax, month) {
+function calculate_cdb(value, cdi, tax, month) {
   var rendimento;
-  tax = tax * 0.01;
-  tax = tax * selic;
-  tax = tax * 0.01;
+  var percent = cdi * (tax / 100);
+  percent = percent * 0.01;
 
-  if (!is_positive_number(value) && !is_positive_number(selic) && !is_positive_number(tax) && !is_positive_number(month)) {
-    $("#value").prepend("<span>Valor precisa ser preenchido e ser um número positivo.</span>");
+  if (!is_positive_number(value) && !is_positive_number(cdi) && !is_positive_number(tax) && !is_positive_number(month)) {
+    $("#value-cdb").prepend("<span>Valor precisa ser preenchido e ser um número positivo.</span>");
   }
 
   for (var i = 0; i < month; i++) {
-    rendimento = value * tax;
+    rendimento = value * percent;
     value = value + rendimento;
   }
   return round(value);
