@@ -1,10 +1,18 @@
 QUnit.test( "calculate_poupa should return the expected result", function( assert ) {
-  var result = calculate_poupa(100,0.0065,3);
+  var poupanca = FCalc;
+  poupanca.setValue(100);
+  poupanca.setTax(0.0065);
+  poupanca.setMonth(3);
+  var result = poupanca.calculatePoupa();
   assert.ok( result === 101.96, "Passed!" );
 });
 
 QUnit.test( "calculate_poupa should return an alert message", function( assert ) {
-  var result = calculate_poupa("","","");
+  var poupanca = FCalc;
+  poupanca.setValue("");
+  poupanca.setTax("");
+  poupanca.setMonth("");
+  var result = poupanca.calculatePoupa();
   assert.ok( result == false, "Passed!" );
 });
 
@@ -24,23 +32,39 @@ QUnit.test( "is_positive_number should return true with a positive number", func
 });
 
 QUnit.test( "calculate_poupa should create a span message", function( assert ) {
-  calculate_poupa("","","");
+  var poupanca = FCalc;
+  poupanca.setValue("");
+  poupanca.setTax("");
+  poupanca.setMonth("");
+  poupanca.calculatePoupa();
   var span = document.getElementById("qunit-fixture").getElementsByTagName("span");
   assert.equal( span[0].innerHTML, "Valor precisa ser preenchido e ser um número positivo." );
 });
 
 QUnit.test( "calculate_cdb should return the expected result", function( assert ) {
-  var result = calculate_cdb(100, 1.13, 116, 3);
+  var cdb = FCalc;
+  cdb.setValue(100);
+  cdb.setTax(116);
+  cdb.setMonth(3);
+  var result = cdb.calculateCdb(1.13);
   assert.ok( result === 103.98, "Passed!" );
 });
 
 QUnit.test( "calculate_cdb should retunr an alert message", function ( assert ) {
-    var result = calculate_cdb("","","","");
-    assert.ok( result == false, "Passed!");
+  var cdb = FCalc;
+  cdb.setValue("");
+  cdb.setTax("");
+  cdb.setMonth("");
+  var result = cdb.calculateCdb("");
+  assert.ok( result == false, "Passed!");
 });
 
 QUnit.test( "calculate_cdb should create a span message", function ( assert ) {
-    calculate_cdb("","","","");
-    var span = $("#qunit-fixture span");
-    assert.equal( span.text(), "Valor precisa ser preenchido e ser um número positivo." );
+  var cdb = FCalc;
+  cdb.setValue("");
+  cdb.setTax("");
+  cdb.setMonth("");
+  cdb.calculateCdb("");
+  var span = $("#qunit-fixture span");
+  assert.equal( span.text(), "Valor precisa ser preenchido e ser um número positivo." );
 });
