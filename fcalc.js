@@ -1,57 +1,41 @@
-var FCalc = (function(){
-  var value = 0;
-  var tax = 0;
-  var month = 0;
+var FCalc = function(value, month) {
+  this.value = value;
+  this.month = month;
+}
 
-  return{
-    value: function(){
-      return value;
-    },
-    setValue: function(val){
-      value = val;
-    },
-    tax: function(){
-      return tax;
-    },
-    setTax: function(val){
-      tax = val;
-    },
-    month: function(){
-      return month;
-    },
-    setMonth: function(val){
-      month = val;
-    },
-    calculatePoupa: function(){
-      var rendimento;
+FCalc.prototype.setTax = function(tax) {
+  this.tax = tax;
+}
 
-      if (!is_positive_number(value) && !is_positive_number(tax) && !is_positive_number(month)) {
-        $("#value-poupa").prepend("<span>Valor precisa ser preenchido e ser um número positivo.</span>");
-      }
+FCalc.prototype.calculatePoupa = function() {
+  var rendimento;
 
-      for (var i = 0; i < month; i++) {
-        rendimento = value * tax;
-        value = value + rendimento;
-      }
-      return round(value);
-    },
-    calculateCdb: function(cdi){
-      var rendimento;
-      var percent = cdi * (tax / 100);
-      percent = percent * 0.01;
-
-      if (!is_positive_number(value) && !is_positive_number(cdi) && !is_positive_number(tax) && !is_positive_number(month)) {
-        $("#value-cdb").prepend("<span>Valor precisa ser preenchido e ser um número positivo.</span>");
-      }
-
-      for (var i = 0; i < month; i++) {
-        rendimento = value * percent;
-        value = value + rendimento;
-      }
-      return round(value);
-    }
+  if (!is_positive_number(this.value) && !is_positive_number(this.tax) && !is_positive_number(this.month)) {
+    $("#value-poupa").prepend("<span>Valor precisa ser preenchido e ser um número positivo.</span>");
   }
-})();
+
+  for (var i = 0; i < this.month; i++) {
+    rendimento = this.value * this.tax;
+    this.value = this.value + rendimento;
+  }
+  return round(this.value);
+}
+
+FCalc.prototype.calculateCdb = function(cdi){
+  var rendimento;
+  var percent = cdi * (this.tax / 100);
+  percent = percent * 0.01;
+
+  if (!is_positive_number(this.value) && !is_positive_number(this.cdi) && !is_positive_number(this.tax) && !is_positive_number(this.month)) {
+    $("#value-cdb").prepend("<span>Valor precisa ser preenchido e ser um número positivo.</span>");
+  }
+
+  for (var i = 0; i < this.month; i++) {
+    rendimento = this.value * percent;
+    this.value = this.value + rendimento;
+  }
+  return round(this.value);
+}
 
 function round(a) {
   return Math.round(a*100)/100;
