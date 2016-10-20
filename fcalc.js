@@ -8,43 +8,55 @@ FCalc.prototype.setTax = function(tax) {
 }
 
 FCalc.prototype.calculatePoupa = function() {
-  var rendimento;
+  Validator.isPositiveNumber(this.value,"value-poupa","Valor");
+  Validator.isPositiveNumber(this.month,"value-poupa","Mês");
+  Validator.isPositiveNumber(this.tax,"value-poupa","Taxa");
 
-  if (!is_positive_number(this.value) && !is_positive_number(this.tax) && !is_positive_number(this.month)) {
-    $("#value-poupa").prepend("<span>Valor precisa ser preenchido e ser um número positivo.</span>");
-  }
-
+  var rendimento = 0;
   for (var i = 0; i < this.month; i++) {
     rendimento = this.value * this.tax;
-    this.value = this.value + rendimento;
+    this.value += rendimento;
   }
-  return round(this.value);
+  return Utils.round(this.value);
 }
 
 FCalc.prototype.calculateCdb = function(cdi){
-  var rendimento;
+  Validator.isPositiveNumber(this.value,"value-cdb","Valor");
+  Validator.isPositiveNumber(this.month,"value-cdb","Mês");
+  Validator.isPositiveNumber(this.tax,"value-cdb","Taxa");
+  Validator.isPositiveNumber(cdi,"value-cdb","Cdi");
+
+  var rendimento = 0;
   var percent = cdi * (this.tax / 100);
   percent = percent * 0.01;
 
-  if (!is_positive_number(this.value) && !is_positive_number(this.cdi) && !is_positive_number(this.tax) && !is_positive_number(this.month)) {
-    $("#value-cdb").prepend("<span>Valor precisa ser preenchido e ser um número positivo.</span>");
-  }
-
   for (var i = 0; i < this.month; i++) {
     rendimento = this.value * percent;
-    this.value = this.value + rendimento;
+    this.value += rendimento;
   }
-  return round(this.value);
+  return Utils.round(this.value);
 }
 
-function round(a) {
-  return Math.round(a*100)/100;
-}
-
-function is_positive_number(value) {
-  if (!isNaN(value) && value > 0) {
-  	return true;
-  } else {
-  	return false;
+var Validator = (function(){
+  return {
+    isPositiveNumber: function(val,selector,field){
+      if(!Utils.isPositiveNumber(val)){
+        $("#"+selector).prepend("<span>"+field+" precisa ser preenchido e ser um número positivo.</span>");
+      }
+    }
   }
-}
+})();
+var Utils = (function(){
+  return {
+    round: function(val){
+      return Math.round(val*100)/100;
+    },
+    isPositiveNumber: function(val){
+      if (!isNaN(val) && val > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+})();
