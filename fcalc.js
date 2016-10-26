@@ -1,41 +1,60 @@
-var FCalc = function(value, month) {
-  this.value = value;
-  this.month = month;
-}
-
-FCalc.prototype.setTax = function(tax) {
-  this.tax = tax;
-}
-
-FCalc.prototype.calculatePoupa = function() {
-  Validator.isPositiveNumber(this.value,"value-poupa","Valor");
-  Validator.isPositiveNumber(this.month,"value-poupa","Mês");
-  Validator.isPositiveNumber(this.tax,"value-poupa","Taxa");
-
-  var rendimento = 0;
-  for (var i = 0; i < this.month; i++) {
-    rendimento = this.value * this.tax;
-    this.value += rendimento;
+var FCalc = (function() {
+  function Investment(value, month) {
+    this.value = value;
+    this.month = month;
   }
-  return Utils.round(this.value);
-}
 
-FCalc.prototype.calculateCdb = function(cdi){
-  Validator.isPositiveNumber(this.value,"value-cdb","Valor");
-  Validator.isPositiveNumber(this.month,"value-cdb","Mês");
-  Validator.isPositiveNumber(this.tax,"value-cdb","Taxa");
-  Validator.isPositiveNumber(cdi,"value-cdb","Cdi");
-
-  var rendimento = 0;
-  var percent = cdi * (this.tax / 100);
-  percent = percent * 0.01;
-
-  for (var i = 0; i < this.month; i++) {
-    rendimento = this.value * percent;
-    this.value += rendimento;
+  Investment.prototype = {
+    constructor: Investment,
+    value: function() {
+      return 'This is the value:' + this.value;
+    }
   }
-  return Utils.round(this.value);
-}
+
+  function Poupanca(value, month, tax) {
+    Investment.call(this, value, month);
+    this.tax = tax;
+  }
+
+  Poupanca.prototype = new Investment();
+
+  Poupanca.prototype = {
+    constructor: Poupanca,
+    calculate: function() {
+      Validator.isPositiveNumber(this.value,"value-poupa","Valor");
+      Validator.isPositiveNumber(this.month,"value-poupa","Mês");
+      Validator.isPositiveNumber(this.tax,"value-poupa","Taxa");
+
+      var rendimento = 0;
+      for (var i = 0; i < this.month; i++) {
+        rendimento = this.value * this.tax;
+        this.value += rendimento;
+      }
+      return Utils.round(this.value);
+    }
+  }
+
+  return {
+    Poupanca: Poupanca
+  }
+
+  FCalc.prototype.calculateCdb = function(cdi){
+    Validator.isPositiveNumber(this.value,"value-cdb","Valor");
+    Validator.isPositiveNumber(this.month,"value-cdb","Mês");
+    Validator.isPositiveNumber(this.tax,"value-cdb","Taxa");
+    Validator.isPositiveNumber(cdi,"value-cdb","Cdi");
+
+    var rendimento = 0;
+    var percent = cdi * (this.tax / 100);
+    percent = percent * 0.01;
+
+    for (var i = 0; i < this.month; i++) {
+      rendimento = this.value * percent;
+      this.value += rendimento;
+    }
+    return Utils.round(this.value);
+  }
+})();
 
 var Validator = (function(){
   return {
@@ -46,6 +65,7 @@ var Validator = (function(){
     }
   }
 })();
+
 var Utils = (function(){
   return {
     round: function(val){
