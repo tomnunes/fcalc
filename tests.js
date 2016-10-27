@@ -35,23 +35,20 @@ QUnit.test( "calculate_poupa should create a span message", function( assert ) {
 });
 
 QUnit.test( "calculate_cdb should return the expected result", function( assert ) {
-  var cdb = new FCalc(100, 3);
-  cdb.setTax(116);
-  var result = cdb.calculateCdb(1.13);
+  var cdb = new FCalc.Cdb(100, 3, 116, 1.13);
+  var result = cdb.calculate();
   assert.ok( result === 103.98, "Passed!" );
 });
 
 QUnit.test( "calculate_cdb should retunr an alert message", function ( assert ) {
-  var cdb = new FCalc("", "");
-  cdb.setTax("");
-  var result = cdb.calculateCdb("");
+  var cdb = new FCalc.Cdb("", "","");
+  var result = cdb.calculate();
   assert.ok( result == false, "Passed!");
 });
 
 QUnit.test( "calculate_cdb should create a span message", function ( assert ) {
-  var cdb = new FCalc("", "");
-  cdb.setTax("");
-  cdb.calculateCdb("");
+  var cdb = new FCalc.Cdb("", "", "", "");
+  cdb.calculate();
   var span = $("#qunit-fixture span");
   assert.equal( span.eq(0).text(), "Cdi precisa ser preenchido e ser um número positivo." );
   assert.equal( span.eq(1).text(), "Taxa precisa ser preenchido e ser um número positivo." );

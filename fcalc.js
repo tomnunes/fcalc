@@ -2,13 +2,18 @@ var FCalc = (function() {
   function Investment(value, month) {
     this.value = value;
     this.month = month;
+    this.calculateIncome = function(percent) {
+      var income = 0;
+      for (var i = 0; i < this.month; i++) {
+        income = this.value * percent;
+        this.value += income;
+      }
+      return this.value;
+    }
   }
 
   Investment.prototype = {
-    constructor: Investment,
-    value: function() {
-      return 'This is the value:' + this.value;
-    }
+    constructor: Investment
   }
 
   function Poupanca(value, month, tax) {
@@ -17,6 +22,7 @@ var FCalc = (function() {
   }
 
   Poupanca.prototype = new Investment();
+  Poupanca.prototype.constructor = Poupanca;
 
   Poupanca.prototype = {
     constructor: Poupanca,
@@ -25,35 +31,39 @@ var FCalc = (function() {
       Validator.isPositiveNumber(this.month,"value-poupa","Mês");
       Validator.isPositiveNumber(this.tax,"value-poupa","Taxa");
 
-      var rendimento = 0;
-      for (var i = 0; i < this.month; i++) {
-        rendimento = this.value * this.tax;
-        this.value += rendimento;
-      }
-      return Utils.round(this.value);
+      return Utils.round(this.calculateIncome(this.tax));
     }
+  }
+
+  function Cdb(value, month, tax, cdi) {
+    Investment.call(this, value, month);
+    this.tax = tax;
+    this.cdi = cdi;
+  }
+
+  Cdb.prototype = new Investment();
+
+  Cdb.prototype = {
+    constructor: Cdb,
+    calculate: function() {
+      Validator.isPositiveNumber(this.value,"value-cdb","Valor");
+      Validator.isPositiveNumber(this.month,"value-cdb","Mês");
+      Validator.isPositiveNumber(this.tax,"value-cdb","Taxa");
+      Validator.isPositiveNumber(this.cdi,"value-cdb","Cdi");
+
+      var percent = this.cdi * (this.tax / 100);
+      percent = percent * 0.01;
+
+      return Utils.round(this.calculateIncome(percent));
+    }  
   }
 
   return {
-    Poupanca: Poupanca
+    Investment: Investment,
+    Poupanca: Poupanca,
+    Cdb: Cdb
   }
 
-  FCalc.prototype.calculateCdb = function(cdi){
-    Validator.isPositiveNumber(this.value,"value-cdb","Valor");
-    Validator.isPositiveNumber(this.month,"value-cdb","Mês");
-    Validator.isPositiveNumber(this.tax,"value-cdb","Taxa");
-    Validator.isPositiveNumber(cdi,"value-cdb","Cdi");
-
-    var rendimento = 0;
-    var percent = cdi * (this.tax / 100);
-    percent = percent * 0.01;
-
-    for (var i = 0; i < this.month; i++) {
-      rendimento = this.value * percent;
-      this.value += rendimento;
-    }
-    return Utils.round(this.value);
-  }
 })();
 
 var Validator = (function(){
