@@ -2,7 +2,11 @@ var FCalc = (function() {
   function Investment(value, month) {
     this.value = value;
     this.month = month;
-    this.calculateIncome = function(percent) {
+  }
+
+  Investment.prototype = {
+    constructor: Investment,
+    calculateIncome: function(percent) {
       var income = 0;
       for (var i = 0; i < this.month; i++) {
         income = this.value * percent;
@@ -10,10 +14,6 @@ var FCalc = (function() {
       }
       return this.value;
     }
-  }
-
-  Investment.prototype = {
-    constructor: Investment
   }
 
   function Poupanca(value, month, tax) {
@@ -31,7 +31,7 @@ var FCalc = (function() {
       Validator.isPositiveNumber(this.month,"value-poupa","Mês");
       Validator.isPositiveNumber(this.tax,"value-poupa","Taxa");
 
-      return Utils.round(this.calculateIncome(this.tax));
+      return Utils.round(Investment.prototype.calculateIncome.call(this, this.tax));
     }
   }
 
@@ -42,6 +42,7 @@ var FCalc = (function() {
   }
 
   Cdb.prototype = new Investment();
+  Cdb.prototype.constructor = Cdb;
 
   Cdb.prototype = {
     constructor: Cdb,
@@ -54,7 +55,7 @@ var FCalc = (function() {
       var percent = this.cdi * (this.tax / 100);
       percent = percent * 0.01;
 
-      return Utils.round(this.calculateIncome(percent));
+      return Utils.round(Investment.prototype.calculateIncome.call(this, percent));
     }  
   }
 
