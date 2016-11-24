@@ -3,7 +3,6 @@ var FCalc = (function() {
     this.value = value;
     this.month = month;
   }
-
   Investment.prototype = {
     constructor: Investment,
     calculateIncome: function(percent) {
